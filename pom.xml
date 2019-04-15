@@ -28,15 +28,15 @@
   </parent>
 
   <artifactId>maven-dependency-tree</artifactId>
-  <version>3.0.2-SNAPSHOT</version>
+  <version>3.0.2-atlassian-m01-SNAPSHOT</version>
 
   <name>Apache Maven Dependency Tree</name>
   <description>A tree-based API for resolution of Maven project dependencies</description>
 
   <scm>
-    <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-dependency-tree.git</connection>
-    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-dependency-tree.git</developerConnection>
-    <url>https://github.com/apache/maven-dependency-tree/tree/${project.scm.tag}</url>
+    <connection>scm:git:https://github.com/atlassian/maven-dependency-tree.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/atlassian/maven-dependency-tree.git</developerConnection>
+    <url>https://github.com/atlassian/maven-dependency-tree</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
@@ -52,6 +52,14 @@
       <id>apache.website</id>
       <url>scm:svn:https://svn.apache.org/repos/asf/maven/website/components/${maven.site.path}</url>
     </site>
+    <repository>
+      <id>atlassian-3rdparty</id>
+      <url>https://packages.atlassian.com/maven/3rdparty</url>
+    </repository>
+    <snapshotRepository>
+      <id>atlassian-3rdparty-snapshot</id>
+      <url>https://packages.atlassian.com/maven/3rdparty-snapshot</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <properties>
@@ -197,6 +205,35 @@
           </execution>
         </executions>
       </plugin>      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-license</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>${user.dir}</directory>
+                  <includes>
+                    <include>LICENSE.txt</include>
+                    <include>NOTICE.txt</include>
+                    <include>license.txt</include>
+                    <include>notice.txt</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
